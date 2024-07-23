@@ -113,6 +113,7 @@ func main() {
 			}
 		}()
 
+		cmd.Start()
 		cmd.Wait()
 
 		if _, err := os.Stat(dbPath); os.IsNotExist(err) {
