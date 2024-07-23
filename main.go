@@ -66,11 +66,10 @@ func main() {
 				hasStdout := stdoutScanner.Scan()
 				hasStderr := stderrScanner.Scan()
 
-				if !hasStdout && !hasStderr {
-					break
+				if hasStdout || hasStderr {
+					outputRecieved <- time.Now().Unix()
 				}
 
-				outputRecieved <- time.Now().Unix()
 				if hasStdout {
 					stdoutLine += stdoutScanner.Text()
 					for strings.Contains(stdoutLine, "\n") {
@@ -86,13 +85,6 @@ func main() {
 						stderrLine = strings.Join(strings.Split(stderrLine, "\n"), "\n")
 					}
 				}
-			}
-
-			if err := stdoutScanner.Err(); err != nil {
-				log.Printf("Error reading stdout: %v\n", err)
-			}
-			if err := stderrScanner.Err(); err != nil {
-				log.Printf("Error reading stderr: %v\n", err)
 			}
 		}()
 
