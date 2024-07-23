@@ -52,6 +52,10 @@ func main() {
 			log.Fatal(err)
 		}
 
+		if err := cmd.Start(); err != nil {
+			log.Fatal(err)
+		}
+
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
 
@@ -105,7 +109,6 @@ func main() {
 			}
 		}()
 
-		cmd.Start()
 		cmd.Wait()
 
 		if _, err := os.Stat(dbPath); os.IsNotExist(err) {
